@@ -2,7 +2,6 @@
 
 This folder is a **self-contained, minimal extract** of the full research repository, containing only what is needed to reproduce the **User Attribute Inference (UAL-Inference)** pipeline used in the `UAL_Rapport/` paper: unauthorized inference of personal attributes (age, sex, location, occupation, etc.) from seemingly innocuous text, and the evaluation of two input-boundary defenses against it — **Prompt Guard 2** (baseline) and **UAL Semantic Guard** (proposed contribution).
 
-The other scenario families from the original repository (Bank, CV, PDL, PCL) are **not usable** from this folder — see [Files present but unused](#-files-present-but-unused) below.
 
 ---
 
@@ -150,11 +149,6 @@ pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
 
 ---
 
-## ⚠️ Files present but unused
-
-`benchmark_local.py` unconditionally imports the Bank/CV/PDL/PCL scenarios, and `defense/__init__.py` unconditionally imports every defense mode (including `anonymizer.py`) — these files must therefore remain present for imports not to break, even though the UAL scripts above never invoke them.
-
----
 
 > [!WARNING]
 > **Security notice**: this project is developed strictly for academic research and defensive evaluation purposes. Do not use these payloads against third-party production systems without explicit authorization.
