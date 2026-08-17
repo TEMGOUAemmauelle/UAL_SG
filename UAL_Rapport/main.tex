@@ -1,0 +1,107 @@
+% NOTE: For final NDSS submission, replace this document class with
+% \documentclass[letterpaper,twocolumn,10pt]{article} and the official
+% ndss-template.cls preamble (https://www.ndss-symposium.org/ndss2027/cfp/).
+% The current setup is suitable for internal review and collaborative editing.
+\documentclass[twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{tcolorbox}
+\usepackage{multirow}
+\usepackage{tabularx}
+\tcbuselibrary{skins, breakable}
+
+% TikZ configuration for publication-quality vector graphics
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, shadows}
+\usepackage{pifont} % for \ding{51} checkmarks and \ding{55} crosses
+
+\geometry{a4paper, margin=2.0cm}
+
+\usepackage{stfloats}
+
+% Float parameters for double-column document classes
+\renewcommand{\topfraction}{0.95}	% max fraction of floats at top
+\renewcommand{\bottomfraction}{0.85}	% max fraction of floats at bottom
+\renewcommand{\dbltopfraction}{0.95} % fit big float at top of double-column page
+\renewcommand{\textfraction}{0.05}	% allow minimal text w. figs
+\renewcommand{\floatpagefraction}{0.85}	% require fuller float pages
+\renewcommand{\dblfloatpagefraction}{0.85} % require fuller double-column float pages
+
+% Modern color palette definitions
+\definecolor{primaryblue}{RGB}{41, 128, 185}
+\definecolor{lightblue}{RGB}{235, 245, 251}
+\definecolor{darkblue}{RGB}{21, 67, 96}
+\definecolor{successgreen}{RGB}{39, 174, 96}
+\definecolor{lightgreen}{RGB}{234, 250, 241}
+\definecolor{warningorange}{RGB}{243, 156, 18}
+\definecolor{errorred}{RGB}{192, 57, 43}
+\definecolor{lightred}{RGB}{253, 237, 237}
+\definecolor{neutralgray}{RGB}{127, 140, 141}
+\definecolor{lightgray}{RGB}{242, 244, 244}
+
+\definecolor{findingblue}{RGB}{26, 82, 118}
+\definecolor{findingbg}{RGB}{240, 244, 248}
+
+\newtcolorbox{keyfinding}{
+    enhanced,
+    boxrule=0pt,
+    frame hidden,
+    borderline west={3pt}{0pt}{findingblue},
+    colback=findingbg,
+    sharp corners,
+    fontupper=\small\sffamily,
+    before=\vspace{0.5em},
+    after=\vspace{0.5em}
+}
+
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    breaklines=true,
+    showstringspaces=false,
+    columns=flexible,
+    keepspaces=true,
+    frame=single,
+    backgroundcolor=\color{gray!5},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=1.5em
+}
+
+\title{Semantic Intent Detection for User Attribute Inference Attacks on Large Language Models}
+\author{Anonymous Authors}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Large Language Models (LLMs) can infer highly sensitive personal attributes including age, gender, occupation, education level, income, and health indicators from seemingly innocuous user-generated text. While this reasoning capability underpins many of their most valuable applications, it also introduces a new class of privacy threats that we formalize as User Attribute Inference (UAL-Inference). Unlike traditional privacy risks based on memorization or data leakage, UAL-Inference exploits the inferential capabilities of LLMs to derive personal information that users never explicitly disclose.
+Recent guardrail frameworks have significantly improved protection against jailbreaks, prompt injection, and other unsafe interactions by leveraging semantic reasoning and LLM-based safety models. However, they are generally designed to detect harmful or policy-violating requests rather than attempts to profile individuals through attribute inference. As a result, User Attribute Inference remains insufficiently addressed as a distinct privacy threat. To bridge this gap, we propose a semantic intent detection layer that identifies requests whose objective is to infer personal attributes, regardless of their linguistic formulation. 
+Experiments on both explicit and indirect User Attribute Inference prompts demonstrate strong detection performance while maintaining low false-positive rates on legitimate analytical tasks. We further evaluate inference latency and energy consumption to quantify the practical cost of deploying the proposed defense.
+\end{abstract}
+
+\input{introduction}
+\input{background}
+\input{related_work}
+\input{architecture}
+\input{methodology}
+\input{results}
+\input{discussion}
+\input{conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

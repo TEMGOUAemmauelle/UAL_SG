@@ -1,0 +1,42 @@
+% ============================================================
+\section{Discussion}
+% ============================================================
+\label{sec:discussion}
+
+\subsection{Threat Coverage: Prompt Guard 2 vs. UAL Semantic Guard}
+
+Table~\ref{tab:coverage} scores both defenses against the four deployment requirements derived in Section~\ref{subsec:defense_requirements}; the underlying detection, false-positive, latency, and energy figures are reported in full in Section~\ref{sec:results} and are not repeated here.
+
+\begin{table}[H]
+\centering
+\caption{Qualitative comparison of Prompt Guard~2 (baseline) and UAL Semantic Guard (proposed) against the four defense requirements of Section~\ref{subsec:defense_requirements}.}
+\label{tab:coverage}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Property} & \textbf{Prompt Guard 2} & \textbf{UAL Semantic Guard} \\
+\midrule
+Detection Basis           & Syntactic patterns & Semantic intent \\
+Evasion-Resistant         & \textcolor{errorred}{\ding{55}} & \textcolor{successgreen}{\ding{51}} \\
+Hardness-Independent      & \textcolor{successgreen}{\ding{51}} & \textcolor{successgreen}{\ding{51}} \\
+Training Required         & Pre-trained (OOTB) & Zero-shot (LLM-as-a-Judge) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The key differentiator is \emph{adversarial coverage}: Prompt Guard~2 detects only variants whose surface form resembles injection attacks, whereas UAL Semantic Guard detects by purpose and is therefore robust across the full semantic evasion spectrum at the cost of the operational overhead quantified below.
+
+\paragraph{UAL-Inference as the hardest attack category.}
+To contextualise these results, we conducted a preliminary evaluation of general-purpose defenses across 14 attack categories. In that evaluation, UAL-Inference was the most resistant attack of all: Prompt Guard~2 achieved only 5.0\% robustness barely above the 3.3\% unguarded baseline and the best-performing multi-defense stack reached only 60.8\% (Table~\ref{tab:broader_context}), compared to 95\%+ on structured injection and encoding attacks. UAL Semantic Guard closes this gap entirely.
+
+The gap between 60.8\% and 100\% is not a matter of stacking more defenses: the best prior stack already combines three distinct mechanisms. The gain comes from switching the classification objective from surface-pattern matching to semantic intent detection the core design choice of UAL Semantic Guard.
+
+\subsection{Limitations and Open Questions}
+\paragraph{Evaluation scope.}
+The benchmark covers 100 SynthPAI profiles and four open-weight LLMs (Llama~2-13B, Llama~3.1-8B, Mistral-Nemo, Qwen~2.5-7B), yielding 10{,}800 adversarial and 9{,}600 benign records across the three defense conditions. UAL Semantic Guard's 38 false positives are concentrated on a single task type (Sentiment Analysis, 36/38) but spread across all four target models (7 on Llama~2-13B, 11 on Llama~3.1-8B, 14 on Mistral-Nemo, 6 on Qwen~2.5-7B); generalization to other model families (e.g., Gemma, Mistral-Large, Qwen-Max) and to the full SynthPAI corpus is required before making broad quantitative claims.
+
+\paragraph{Multi-turn splitting attacks.}
+Our evaluation covers single-turn prompts. A distributional attack that spreads profiling intent across multiple conversational turns with no single turn triggering detection is outside the current threat model and represents an important extension.
+
+\paragraph{Adaptive adversaries.}
+We evaluate nine static prompt variants designed prior to deployment. An adaptive adversary who observes UAL Semantic Guard verdicts and iteratively refines evasion strategies red-teaming the Judge itself may ultimately find formulations that bypass the current few-shot demonstrations. Adversarial augmentation of the system instruction during deployment is a necessary direction for sustaining robustness under active attack.
+
