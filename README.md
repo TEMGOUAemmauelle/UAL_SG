@@ -1,11 +1,11 @@
-# UAL Attack Lab 🛡️⚡
+# UAL Attack Lab 🛡️
 
 This folder is a **self-contained, minimal extract** of the full research repository, containing only what is needed to reproduce the **User Attribute Inference (UAL-Inference)** pipeline used in the `UAL_Rapport/` paper: unauthorized inference of personal attributes (age, sex, location, occupation, etc.) from seemingly innocuous text, and the evaluation of two input-boundary defenses against it — **Prompt Guard 2** (baseline) and **UAL Semantic Guard** (proposed contribution).
 
 
 ---
 
-## 🎯 What this pipeline covers
+## What this pipeline covers
 
 - **9 UAL attack variants** (5 "core", explicit → evasive; 4 "generalization", evasion strategies held out of the judge's few-shot prompt) against 4 local open-weight LLMs (Llama 2-13B, Llama 3.1-8B, Mistral-Nemo, Qwen 2.5-7B).
 - **8 benign tasks** (summary, sentiment, reply, paraphrase, translation, proofreading, keywords, title) to measure the false-positive rate.
@@ -15,7 +15,7 @@ This folder is a **self-contained, minimal extract** of the full research reposi
 
 ---
 
-## 📊 Results overview
+## Results overview
 
 ![UAL-Inference defense benchmark dashboard](results/figures/fig4_dashboard.png)
 
