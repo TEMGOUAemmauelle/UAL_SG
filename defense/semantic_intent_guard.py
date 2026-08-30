@@ -470,10 +470,17 @@ class SemanticIntentGuardLLM:
         """Instancie le provider du juge LLM de façon lazy (historique vide, isolé)."""
         if self._llm_judge is None:
             from server.ollama_provider import OllamaProvider
+            # temperature=0 + seed fixe : le juge doit être déterministe pour
+            # qu'un même prompt donne toujours le même verdict UAL-Inference
+            # d'un run à l'autre (sinon le benchmark est bruité par le sampling
+            # du juge en plus de celui du modèle cible).
+            judge_options = dict(getattr(self.provider, "options", None) or {})
+            judge_options.setdefault("temperature", 0)
+            judge_options.setdefault("seed", 42)
             judge_provider = OllamaProvider(
                 model_name=self._judge_model,
                 base_url=self._judge_base_url or "http://localhost:11434",
-                options=getattr(self.provider, "options", None)
+                options=judge_options
             )
             self._llm_judge = UALIntentLLMJudge(
                 judge_provider=judge_provider,
