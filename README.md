@@ -93,39 +93,6 @@ UAL_Attack_Lab/
 
 ---
 
-## 🛡️ Defense modes
-
-Every `--modes` value below is dispatched by `run_single_test()` in `benchmark_local.py`.
-The paper compares `none`, `prompt_guard_2` and `semantic_intent_guard`; the other modes
-are available for ablations.
-
-| `--modes` value | Layer | What it does |
-|---|---|---|
-| `none` | M0 | No defense — raw model output (baseline). |
-| `guardrail_only` | M1 | Zero-Trust system prompt injected first (`SelfMonitoringLLM.STRONG_GUARDRAIL`). No post-processing. |
-| `self_monitoring_only` | M2 | No guardrail; after generating, the model re-audits its own answer (JSON reflection) and self-repairs if it flags a leak. |
-| `guardrail_monitoring` | M1+M2 | Guardrail prompt **and** self-audit/self-repair (legacy alias: `full`). |
-| `m3_pre_strike` | M3-Pre | Intent analysis before generation, blocks the request up front. |
-| `self_sanitize` | M3 | Full M3: pre-strike + token-by-token post-scan + self-repair. |
-| `prompt_guard_2` | M4 | Prompt Guard 2 (DeBERTa-v3) pre-inference classification. |
-| `semantic_intent_guard` | M5 | **UAL Semantic Guard** — `auto` backend (LLM-as-a-Judge, Qwen2.5-1.5B). |
-| `semantic_intent_guard_judge` / `_classifier` | M5 | Force the LLM-Judge / DeBERTa-LoRA backend (the classifier backend needs the checkpoint above). |
-
-Combined stacks also exist: `guardrail_sanitize` (M1+M3), `sanitize_monitoring` (M2+M3),
-`full_stack` (M1+M2+M3), `guardrail_prompt_guard` (M1+M4), `prompt_guard_monitoring`
-(M2+M4), `full_stack_pg` (M1+M2+M4).
-
-Example — add the M1/M2 baselines to a run:
-```bash
-python3 scripts/run_eth_sri_ual_benchmark.py \
-    --sample data/external/eth_sri_llmprivacy/sample_100.jsonl \
-    --modes none guardrail_only self_monitoring_only prompt_guard_2 semantic_intent_guard \
-    --attacks ual_inference_ethsri ual_inference ual_inference_evasive_natural ual_inference_evasive_stealth ual_inference_evasive_casual \
-    --include-generalization
-```
-
----
-
 ## 🔌 Deploying UAL Semantic Guard on your own model
 
 `semantic_intent_guard` is **model-agnostic**: the class `SemanticIntentGuardLLM`
