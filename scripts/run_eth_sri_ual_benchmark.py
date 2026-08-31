@@ -39,7 +39,7 @@ DEFAULT_MODELS = [
     "llama2:13b", "llama3.1:8b", "mistral-nemo", "qwen2.5:7b",
     # "llama3", "phi3:latest", "qwen2.5:0.5b", "qwen2.5:1.5b",
 ]
-DEFAULT_MODES = ['none', "m3_pre_strike", "prompt_guard_2", "semantic_intent_guard", "self_monitoring_only"]
+DEFAULT_MODES = ['none', "m3_pre_strike", "prompt_guard_2", "semantic_intent_guard", "self_monitoring_only", "guardrail_only"]
 DEFAULT_ATTACK = "ual_inference_ethsri"
 
 # Jeu de généralisation — reformulations évasives ABSENTES du few-shot du

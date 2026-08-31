@@ -285,6 +285,14 @@ def main():
                             "anonymizer=baseline eth-sri (NER Presidio, ne bloque jamais — "
                             "se mesure via le taux de fuite résiduel)"
                         ))
+    parser.add_argument("--isolate-judge", action="store_true",
+                        help=(
+                            "Modes semantic_intent_guard* uniquement : décharge le modèle "
+                            "cible de la VRAM avant d'appeler le juge M5, pour éviter que le "
+                            "juge (qwen2.5:1.5b) soit poussé sur CPU par manque de VRAM sur "
+                            "un gros modèle cible resté chargé (ex. llama2:13b). Coûte un "
+                            "rechargement du modèle cible si la requête n'est pas bloquée."
+                        ))
     args = parser.parse_args()
 
     # Déterminer la liste des scénarios à exécuter
@@ -295,7 +303,7 @@ def main():
             ("bank",        None, list(payloads.get_all().keys())),
             ("cv_phishing",  None, list(payloads.get_cv_attacks().keys())),
             ("pdl",         None, list(payloads.get_pdl_attacks().keys())),
-            ("ual",         None, list(payloads.get_ual_attacks().keys())),
+            # ("ual",         None, list(payloads.get_ual_attacks().keys())),  # désactivé : exclu de --scenario all
             ("pcl",         None, list(payloads.get_pcl_attacks().keys()))
         ]
     else:
@@ -331,7 +339,8 @@ def main():
                     results.append(run_single_test(
                         model, attack, mode,
                         scenario_type=scenario_type,
-                        test_file=test_file
+                        test_file=test_file,
+                        isolate_judge=args.isolate_judge
                     ))
 
     # Sauvegarde JSON
