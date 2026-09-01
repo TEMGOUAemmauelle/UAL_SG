@@ -1,4 +1,4 @@
-# UAL Attack Lab 🛡️
+# UAL Semantic Guard (USG) 🛡️
 
 This folder is a **self-contained, minimal extract** of the full research repository, containing only what is needed to reproduce the **User Attribute Inference (UAL-Inference)** pipeline described in the companion research paper: unauthorized inference of personal attributes (age, sex, location, occupation, etc.) from seemingly innocuous text, and the evaluation of two input-boundary defenses against it — **Prompt Guard 2** (baseline) and **UAL Semantic Guard** (proposed contribution).
 
